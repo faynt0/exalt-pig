@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exalt Pig</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" defer></script>
+    <script type="module" src="/main.js" defer></script>
+    <style>
+      .logo.vanilla:hover {
+        filter: drop-shadow(0 0 2em #ffe21c);
+      }
+    </style>
+  </head>
+
+  <body>
+    
+    <div class="pig">
+
+      <span class="crown">
+        <img src="/assets/crown.png">
+      </span>
+  
+      <span class="eyes">
+        <span class="eye left"><span class="ball"></span></span>
+        <span class="eye right"><span class="ball"></span></span>
+      </span>
+       
+      <span class="snout">
+        <span class="nostril left"></span> 
+        <span class="nostril right"></span>
+      </span>
+       
+      <span class="mouth"></span>
+       
+      <span class="ear left"></span>
+      <span class="ear right"></span>
+       
+     </div>
+    <div class="container">
+      <div id="playername"></div>
+      <div class="row">
+      </div>
+      <form class="row" id="login-form">
+        <input id="email-input" placeholder="E-Mail" />
+        <input id="password-input" type="password" placeholder="Password" />
+        <button type="submit">Oink</button>
+      </form>
+
+      <div id="exalts" class="exalts-container">
+
+      </div>
+    </div>
+  </body>
+</html>

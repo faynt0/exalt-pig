@@ -1,0 +1,40 @@
+{
+  "build": {
+    "devPath": "../src",
+    "distDir": "../src",
+    "withGlobalTauri": true
+  },
+  "package": {
+    "productName": "exalt-pig",
+    "version": "0.0.1"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": false,
+      "shell": {
+        "all": false,
+        "open": true
+      }
+    },
+    "windows": [
+      {
+        "title": "Exalt Pig",
+        "width": 900,
+        "height": 800
+      }
+    ],
+    "security": {
+      "csp": null
+    },
+    "bundle": {
+      "active": true,
+      "targets": "all",
+      "identifier": "me.faynt.exalt-pig",
+      "icon": [
+        "icons/favicon-32x32.png",
+        "icons/favicon-144x144.png",
+        "icons/icon.ico"
+      ]
+    }
+  }
+}

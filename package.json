@@ -1,0 +1,15 @@
+{
+  "name": "exalt-pig",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "tauri": "tauri"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^1"
+  },
+  "dependencies": {
+    "sass": "^1.74.1"
+  }
+}

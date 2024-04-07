@@ -1,0 +1,26 @@
+[package]
+name = "exalt-pig"
+version = "0.0.0"
+description = "Displays Exaltations of your RotMG account."
+authors = ["Faynt"]
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[build-dependencies]
+tauri-build = { version = "1", features = [] }
+
+[dependencies]
+tauri = { version = "1", features = ["shell-open"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+serde_urlencoded = "0.7"
+tokio = { version = "1.15", features = ["full"] }
+reqwest = { version = "0.11.22", features = ["blocking", "json"] }
+url = "2.5.0"
+regex = "1.10.4"
+
+[features]
+# This feature is used for production builds or when a dev server is not specified, DO NOT REMOVE!!
+custom-protocol = ["tauri/custom-protocol"]
+
