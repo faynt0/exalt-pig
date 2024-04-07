@@ -128,7 +128,7 @@ async function getAccountData() {
       ]
     };
     makeExaltationTable(testData);
-    document.querySelector("#playername").textContent = "Femboy";
+    document.querySelector("#playername").textContent = "PlayerName";
   }
   
 }

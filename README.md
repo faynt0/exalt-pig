@@ -16,3 +16,10 @@ npm run tauri build
 ## SCSS
 Compile scss files to css:
 sass --watch ./src/style.scss ./src/styles.css
+
+
+## TODO
+- Info button 
+- backend error handling
+- frontend error handling
+- sorting?

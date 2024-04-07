@@ -4,7 +4,7 @@
   line-height: 24px;
   font-weight: 400;
   color: #0f0f0f;
-  background-color: #f9d0ff;
+  background-color: #292729;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -72,6 +72,7 @@ button {
   margin-bottom: 32px;
   font-size: 32px;
   font-weight: bold;
+  color: #faadc3;
 }
 
 #exalts {
@@ -90,8 +91,9 @@ button {
 #exalts table th {
   border-bottom: 1px solid rgba(128, 128, 128, 0.808);
 }
-#exalts table td:last-child, #exalts table th:last-child {
+#exalts table tbody td:last-child {
   border-left: 1px pink solid;
+  font-weight: bold;
 }
 #exalts table tr {
   border-bottom: 1px solid rgba(128, 128, 128, 0.1);
@@ -101,6 +103,9 @@ button {
 }
 #exalts table tr:nth-last-child(2) {
   border-bottom: 1px pink solid;
+}
+#exalts table tr:last-child {
+  font-weight: bold;
 }
 #exalts table td {
   padding: 2px;

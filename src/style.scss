@@ -5,7 +5,7 @@ line-height: 24px;
 font-weight: 400;
 
 color: #0f0f0f;
-background-color: #f9d0ff;
+background-color: #292729;
 
 font-synthesis: none;
 text-rendering: optimizeLegibility;
@@ -74,6 +74,7 @@ outline: none;
     margin-bottom: 32px;
     font-size: 32px;
     font-weight: bold;
+    color:#faadc3;
 }
 
 #exalts {
@@ -91,11 +92,21 @@ outline: none;
 
         th {
             border-bottom: 1px solid rgba(128, 128, 128, 0.808);
+            &:last-child {
+                //border-left: 1px pink solid;
+            }
         }
 
-        td,th {
-            &:last-child {
-                border-left: 1px pink solid;
+        th {
+            
+        }
+
+        tbody {
+            td {
+                &:last-child {
+                    border-left: 1px pink solid;
+                    font-weight: bold;
+                }
             }
         }
 
@@ -109,6 +120,10 @@ outline: none;
 
             &:nth-last-child(2) {
                 border-bottom: 1px pink solid;
+            }
+
+            &:last-child {
+                font-weight: bold;
             }
         }
         td {
