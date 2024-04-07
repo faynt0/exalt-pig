@@ -105,6 +105,30 @@ button {
 #exalts table td {
   padding: 2px;
 }
+#exalts .hp {
+  color: rgb(73, 196, 212);
+}
+#exalts .mp {
+  color: rgb(223, 240, 69);
+}
+#exalts .atk {
+  color: rgb(223, 125, 223);
+}
+#exalts .def {
+  color: rgb(32, 32, 41);
+}
+#exalts .spd {
+  color: rgb(76, 224, 143);
+}
+#exalts .dex {
+  color: rgb(236, 158, 14);
+}
+#exalts .vit {
+  color: rgb(189, 74, 74);
+}
+#exalts .wis {
+  color: rgb(65, 65, 226);
+}
 
 /* styles */
 .pig {

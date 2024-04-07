@@ -104,6 +104,7 @@ outline: none;
 
             &:last-child {
                 border: none;
+
             }
 
             &:nth-last-child(2) {
@@ -113,6 +114,38 @@ outline: none;
         td {
             padding: 2px;
         }
+    }
+
+    .hp {
+        color: rgb(73, 196, 212);
+    }
+
+    .mp {
+        color: rgb(223, 240, 69);
+    }
+
+    .atk {
+        color: rgb(223, 125, 223);
+    }
+
+    .def {
+        color: rgb(32, 32, 41);
+    }
+
+    .spd {
+        color: rgb(76, 224, 143);
+    }
+
+    .dex {
+        color: rgb(236, 158, 14);
+    }
+
+    .vit {
+        color: rgb(189, 74, 74);
+    }
+
+    .wis {
+        color: rgb(65, 65, 226);
     }
 
 }
@@ -178,24 +211,22 @@ $pandaSize:300px;
         border: 10px solid #faadc3;
         border-radius: 100%;
         .nostril {
-          width: 20px; height: 20px;
-          z-index: 2;
-          background-color: $color;
-          position: absolute; top: 30px;
-          border-radius: 100%;
+            width: 20px; height: 20px;
+            z-index: 2;
+            background-color: $color;
+            position: absolute; top: 30px;
+            border-radius: 100%;
 
         
-          &.left {
-            left: 10px;
-          }
-          &.right {
-            right: 10px;
-          }  
+            &.left {
+                left: 10px;
+            }
+            &.right {
+                right: 10px;
+            }  
         }
     }
-  
 
-  
 
     .mouth {
         $width:50px;
@@ -217,12 +248,13 @@ $pandaSize:300px;
         border-left: 60px solid transparent;
         border-right: 60px solid transparent;
         border-bottom: 100px solid $earColor;
-         
 
-        &.left { left:-10px; 
-                 rotate: -23deg;}  
+        &.left { 
+            left:-10px; 
+            rotate: -23deg;}  
         &.right { 
-            right:-10px; }
-                  rotate:23deg;
-                }
+            right:-10px;
+        }
+        rotate:23deg;
+    }
 }

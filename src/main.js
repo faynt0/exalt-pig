@@ -6,10 +6,10 @@ let password;
 let passwordInputEl;
 let apiResponse;
 let parser = new DOMParser();
-let totalAll = 0;
 const maxClasses = 18;
 const statsCount = 8;
 const maxExalts = 75;
+let totalAll = maxClasses * statsCount * maxExalts;
 let exalts;
 
 
@@ -17,17 +17,21 @@ let exalts;
 
 async function getAccountData() {
   // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-  let debug = 1;
+
+  // disables login and uses sample data
+  let debug = 0;
 
   if (!debug) {
     if (emailInputEl.value != "" || passwordInputEl.value != ""){
       emailInputEl.style.border = "";
       passwordInputEl.style.border = "";
+      
+      // send credentials to rust backend, parse the xml response to object and start creating the table
       apiResponse = await invoke("get_account", { guid: emailInputEl.value, password: passwordInputEl.value });
       let xml = parser.parseFromString(apiResponse, "text/xml");
-      console.log(xml);
+      //console.log(xml);
       let JSONData = xmlToJson(xml);
-      console.log(JSONData);
+      //console.log(JSONData);
       makeExaltationTable(JSONData.PowerUpStats);
       document.querySelector("#playername").textContent = JSONData.Account.Name;
     } else {
@@ -36,6 +40,7 @@ async function getAccountData() {
     }
   }
   
+  // if debug is enabled: create table with sample data
   if (debug) {
     let testData = {
       "ClassStats": [
@@ -123,7 +128,7 @@ async function getAccountData() {
       ]
     };
     makeExaltationTable(testData);
-    document.querySelector("#playername").textContent = "DECAcalos";
+    document.querySelector("#playername").textContent = "Femboy";
   }
   
 }
@@ -151,30 +156,38 @@ function makeExaltationTable(exaltData){
   resetExalts();
   resetTotals();
 
-  // Prepare table
-  $t.append('<thead><tr><th>Class</th><th>HP</th><th>MP</th><th>Atk</th><th>Def</th><th>Spd</th><th>Dex</th><th>Vit</th><th>Wis</th><th>Total</th></tr></thead>');
+  //console.log(exaltData);
+  //console.log(totalsClass);
 
-  //prepare exalt data
-  console.log(exaltData);
-  console.log(totalsClass);
-
+  // Populate exalt object with data from the parsed response
+  // if account only has exalts on one class the exalt data won't have an array
   if (Array.isArray(exaltData.ClassStats)) {
     exaltData.ClassStats.forEach((item) => {
       //console.log(item);
       var className = classes[item.class][0];
       var groupIndex = classes[item.class][4][0]; // 0 -> Weapon 3 -> Armor
       var stats = item['#text'].split(',');
+
+      // cap exalt points to 75 
+      stats[0] = stats[0] > 75 ? 75 : parseInt(stats[0]);
+      stats[1] = stats[1] > 75 ? 75 : parseInt(stats[1]);
+      stats[2] = stats[2] > 75 ? 75 : parseInt(stats[2]);
+      stats[3] = stats[3] > 75 ? 75 : parseInt(stats[3]);
+      stats[4] = stats[4] > 75 ? 75 : parseInt(stats[4]);
+      stats[5] = stats[5] > 75 ? 75 : parseInt(stats[5]);
+      stats[6] = stats[6] > 75 ? 75 : parseInt(stats[6]);
+      stats[7] = stats[7] > 75 ? 75 : parseInt(stats[7]);
   
       // sort classes by armor
       exalts[groupIndex][className] = {
-        'hp': ((stats[7]) > 75 ? 75 : parseInt(stats[7])),
-        'mp': ((stats[4]) > 75 ? 75 : parseInt(stats[4])),
-        'atk': ((stats[5]) > 75 ? 75 : parseInt(stats[5])),
-        'def': ((stats[6]) > 75 ? 75 : parseInt(stats[6])),
-        'spd': ((stats[1]) > 75 ? 75 : parseInt(stats[1])),
-        'dex': ((stats[0]) > 75 ? 75 : parseInt(stats[0])),
-        'vit': ((stats[2]) > 75 ? 75 : parseInt(stats[2])),
-        'wis': ((stats[3]) > 75 ? 75 : parseInt(stats[3])),
+        'hp': stats[7],
+        'mp': stats[4],
+        'atk': stats[5],
+        'def': stats[6],
+        'spd': stats[1],
+        'dex': stats[0],
+        'vit': stats[2],
+        'wis': stats[3],
       }
   
   
@@ -182,27 +195,51 @@ function makeExaltationTable(exaltData){
       calculateTotals(className,groupIndex,stats);
     });
   } else {
-    var className = classes[exaltData.class];
-    var groupIndex = classes[exaltData.class][4][0]; // 0 -> Weapon 3 -> Armor
-    var stats = exaltData['#text'].split(',');
+    console.log(exaltData);
+    var className = classes[exaltData.ClassStats.class][0];
+    var groupIndex = classes[exaltData.ClassStats.class][4][0]; // 0 -> Weapon 3 -> Armor
+    var stats = exaltData.ClassStats['#text'].split(',');
+    console.log(className);
+    console.log(groupIndex);
+    console.log(stats);
+
+    // cap exalt points to 75 (rotmg keeps counting points past 75)
+    stats[0] = stats[0] > 75 ? 75 : parseInt(stats[0]);
+    stats[1] = stats[1] > 75 ? 75 : parseInt(stats[1]);
+    stats[2] = stats[2] > 75 ? 75 : parseInt(stats[2]);
+    stats[3] = stats[3] > 75 ? 75 : parseInt(stats[3]);
+    stats[4] = stats[4] > 75 ? 75 : parseInt(stats[4]);
+    stats[5] = stats[5] > 75 ? 75 : parseInt(stats[5]);
+    stats[6] = stats[6] > 75 ? 75 : parseInt(stats[6]);
+    stats[7] = stats[7] > 75 ? 75 : parseInt(stats[7]);
 
 
+    exalts[groupIndex][className] = {
+      'hp': stats[7],
+      'mp': stats[4],
+      'atk': stats[5],
+      'def': stats[6],
+      'spd': stats[1],
+      'dex': stats[0],
+      'vit': stats[2],
+      'wis': stats[3],
+    }
 
     // calculate totals
     calculateTotals(className,groupIndex,stats);
   };
 
       
-  console.log(exalts);
-  console.log(totalsClass);
-  console.log(totalsStat);
+  //console.log(exalts);
+  //console.log(totalsClass);
+  //console.log(totalsStat);
 
-  //populate table
+  //create table and populate with data from exalt object
+  $t.append('<thead><tr><th>Class</th><th  class="hp">HP</th><th class="mp">MP</th><th class="atk">Atk</th><th class="def">Def</th><th class="spd">Spd</th><th class="dex">Dex</th><th class="vit">Vit</th><th class="wis">Wis</th><th>Total</th></tr></thead>');
   for (var [group,groupEntry] of Object.entries(exalts)) {
       //console.log(groupEntry);
       for (var [name,stats] of Object.entries(groupEntry)) {
           //console.log(stats);
-          console.log(group + " " + name);
           var $row = $('<tr>').addClass('equipmentGroup' + group);
           $row.append(`
               <td>${name}</td>
@@ -237,11 +274,11 @@ function makeExaltationTable(exaltData){
   `);
 
   $tb.append($row);
-
   $t.append($tb);
   $d.append($t);
 }
 
+//resets exalt object to 0 on all stats
 function resetExalts(){
   exalts = {
     1: {
@@ -292,33 +329,29 @@ function resetExalts(){
     }
   }
 }
+
+//calculates totals for class, stat and overall
 function calculateTotals(className, groupIndex,stats) {
   totalsStat = {
-    'hp': totalsStat['hp'] - ((stats[7]) > 75 ? 75 : parseInt(stats[7])),
-    'mp': totalsStat['mp'] - ((stats[4]) > 75 ? 75 : parseInt(stats[4])),
-    'atk': totalsStat['atk'] - ((stats[5]) > 75 ? 75 : parseInt(stats[5])),
-    'def': totalsStat['def'] - ((stats[6]) > 75 ? 75 : parseInt(stats[6])),
-    'spd': totalsStat['spd'] - ((stats[1]) > 75 ? 75 : parseInt(stats[1])),
-    'dex': totalsStat['dex'] - ((stats[0]) > 75 ? 75 : parseInt(stats[0])),
-    'vit': totalsStat['vit'] - ((stats[2]) > 75 ? 75 : parseInt(stats[2])),
-    'wis': totalsStat['wis'] - ((stats[3]) > 75 ? 75 : parseInt(stats[3])),
+    'hp': totalsStat['hp'] - stats[7],
+    'mp': totalsStat['mp'] - stats[4],
+    'atk': totalsStat['atk'] - stats[5],
+    'def': totalsStat['def'] - stats[6],
+    'spd': totalsStat['spd'] - stats[1],
+    'dex': totalsStat['dex'] - stats[0],
+    'vit': totalsStat['vit'] - stats[2],
+    'wis': totalsStat['wis'] - stats[3],
   }
   
   totalsClass[groupIndex][className].total = totalsClass[groupIndex][className].total - 
-    ((stats[0]) > 75 ? 75 : parseInt(stats[0])) -
-    ((stats[1]) > 75 ? 75 : parseInt(stats[1])) -
-    ((stats[2]) > 75 ? 75 : parseInt(stats[2])) -
-    ((stats[3]) > 75 ? 75 : parseInt(stats[3])) -
-    ((stats[4]) > 75 ? 75 : parseInt(stats[4])) -
-    ((stats[5]) > 75 ? 75 : parseInt(stats[5])) -
-    ((stats[6]) > 75 ? 75 : parseInt(stats[6])) -
-    ((stats[7]) > 75 ? 75 : parseInt(stats[7]));
+    stats[0] - stats[1] - stats[2] - stats[3] -  stats[4] - stats[5] - stats[6] - stats[7];
 
-  totalAll += totalsClass[groupIndex][className].total;
+  totalAll = totalAll - stats[0] - stats[1] - stats[2] - stats[3] - stats[4] - stats[5] - stats[6] - stats[7];
 }
 
+//resets totals
 function resetTotals(){
-  totalAll = 0;
+  totalAll = maxExalts * statsCount * maxClasses;
   totalsClass = {
     "1": {
         "Knight": {
